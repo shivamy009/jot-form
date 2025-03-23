@@ -3,8 +3,8 @@
 
 import { FormData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
-import { DndContext, closestCenter, useSensor, useSensors, PointerSensor, DragEndEvent } from "@dnd-kit/core"; // Import DragEndEvent
+import { Trash2, GripVertical } from "lucide-react"; // Add GripVertical for drag handle
+import { DndContext, closestCenter, useSensor, useSensors, PointerSensor, DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -25,14 +25,25 @@ function SortableField({ field, onDelete }: { field: FormData["fields"][0]; onDe
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
-      className="flex justify-between items-center p-2 bg-white border rounded-md mb-2 touch-none"
+      className="flex justify-between items-center p-2 bg-white border rounded-md mb-2"
     >
-      <span>
-        {field.label} ({field.type})
-      </span>
-      <Button variant="ghost" size="sm" onClick={onDelete}>
+      <div className="flex items-center flex-1">
+        <div
+          {...attributes}
+          {...listeners}
+          className="cursor-grab mr-2 touch-none" // Drag handle only
+        >
+          <GripVertical className="w-4 h-4" />
+        </div>
+        <span>
+          {field.label} ({field.type})
+        </span>
+      </div>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onDelete} // Direct onDelete call
+      >
         <Trash2 className="w-4 h-4" />
       </Button>
     </div>
@@ -43,15 +54,18 @@ export default function FormBuilder({ formData, setFormData }: FormBuilderProps)
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDelete = (id: string) => {
+    console.log("Deleting field:", id); // Debug log
+    const newFields = formData.fields.filter((f) => f.id !== id);
     setFormData({
       ...formData,
-      fields: formData.fields.filter((f) => f.id !== id),
+      fields: newFields,
     });
+    console.log("Updated fields:", newFields); // Verify update
   };
 
-  const handleDragEnd = (event: DragEndEvent) => { // Replace any with DragEndEvent
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (over && active.id !== over.id) { // Check for null over with explicit condition
+    if (over && active.id !== over.id) {
       const oldIndex = formData.fields.findIndex((field) => field.id === active.id);
       const newIndex = formData.fields.findIndex((field) => field.id === over.id);
       setFormData({
