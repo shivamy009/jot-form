@@ -4,8 +4,8 @@
 import { FormData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { DndContext, closestCenter, useSensor, useSensors, PointerSensor } from "@dnd-kit/core";
-import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable"; // Correct import
+import { DndContext, closestCenter, useSensor, useSensors, PointerSensor, DragEndEvent } from "@dnd-kit/core"; // Import DragEndEvent
+import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 interface FormBuilderProps {
@@ -49,9 +49,9 @@ export default function FormBuilder({ formData, setFormData }: FormBuilderProps)
     });
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => { // Replace any with DragEndEvent
     const { active, over } = event;
-    if (active.id !== over?.id) { // Check for null over
+    if (over && active.id !== over.id) { // Check for null over with explicit condition
       const oldIndex = formData.fields.findIndex((field) => field.id === active.id);
       const newIndex = formData.fields.findIndex((field) => field.id === over.id);
       setFormData({
