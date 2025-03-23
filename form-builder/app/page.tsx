@@ -40,7 +40,7 @@ export default function Home() {
           <div className="flex justify-center items-center min-h-[calc(100vh-1rem)] sm:min-h-[calc(100vh-2rem)]">
             <Button
               onClick={createForm}
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-base sm:text-lg font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-base sm:text-lg font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 cursor-pointer"
             >
               Create New Form
             </Button>
@@ -50,7 +50,7 @@ export default function Home() {
             <h2 className="text-xl sm:text-2xl font-bold text-green-600 mb-4">Form Submitted Successfully!</h2>
             <Button
               onClick={createForm}
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-base sm:text-lg font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-base sm:text-lg font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 cursor-pointer"
             >
               Create Your Own
             </Button>
@@ -58,10 +58,10 @@ export default function Home() {
         ) : (
           <div className="space-y-4">
             <div className="fixed top-0 left-0 right-0 bg-gray-100 p-2 sm:p-4 z-10 flex justify-between items-center w-full max-w-md mx-auto sm:max-w-6xl">
-              <Button variant="outline" onClick={() => setIsSidebarOpen(true)} className="text-sm sm:text-base">
+              <Button variant="outline" onClick={() => setIsSidebarOpen(true)} className="text-sm sm:text-base cursor-pointer">
                 <Plus className="w-4 h-4 mr-1 sm:mr-2" /> Add
               </Button>
-              <Button onClick={() => setIsPreview(!isPreview)} className="text-sm sm:text-base">
+              <Button onClick={() => setIsPreview(!isPreview)} className="text-sm sm:text-base cursor-pointer">
                 {isPreview ? "Edit" : "Preview"}
               </Button>
             </div>

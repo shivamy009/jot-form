@@ -64,7 +64,7 @@ export default function Sidebar({ isOpen, onClose, formData, setFormData }: Side
       } z-50 overflow-y-auto`}
     >
       <div className="p-4">
-        <Button variant="ghost" size="icon" onClick={onClose} className="absolute top-2 right-2 sm:top-4 sm:right-4">
+        <Button variant="ghost" size="icon" onClick={onClose} className="absolute top-2 right-2 sm:top-4 sm:right-4 cursor-pointer">
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </Button>
 
@@ -72,7 +72,7 @@ export default function Sidebar({ isOpen, onClose, formData, setFormData }: Side
           <h3 className="text-base sm:text-lg font-semibold">Components</h3>
           <div className="flex flex-wrap gap-2 mt-2">
             {["name", "email", "phone", "address", "date"].map((type) => (
-              <Button key={type} variant="outline" onClick={() => addField(type as FormField["type"])} className="text-sm sm:text-base">
+              <Button key={type} variant="outline" onClick={() => addField(type as FormField["type"])} className="text-sm sm:text-base cursor-pointer">
                 {type.charAt(0).toUpperCase() + type.slice(1)}
               </Button>
             ))}
@@ -91,7 +91,7 @@ export default function Sidebar({ isOpen, onClose, formData, setFormData }: Side
             <Button
               onClick={() => customFieldName.trim() && addField("custom", customFieldName.trim())}
               disabled={!customFieldName.trim()}
-              className="text-sm sm:text-base"
+              className="text-sm sm:text-base cursor-pointer"
             >
               Add
             </Button>
@@ -105,6 +105,7 @@ export default function Sidebar({ isOpen, onClose, formData, setFormData }: Side
               <label className="text-xs sm:text-sm block mb-1">Input Border Color</label>
               <ChromePicker
                 color={inputBorderColor}
+                className=" cursor-pointer"
                 onChange={(color) => setInputBorderColor(color.hex)}
                 onChangeComplete={(color) => updateTheme("input", "borderColor", color.hex)}
               />
@@ -129,6 +130,7 @@ export default function Sidebar({ isOpen, onClose, formData, setFormData }: Side
               <ChromePicker
                 color={labelColor}
                 onChange={(color) => setLabelColor(color.hex)}
+                className=" cursor-pointer"
                 onChangeComplete={(color) => updateTheme("label", "color", color.hex)}
               />
               <p className="text-xs sm:text-sm mt-1">{labelColor}</p>
@@ -152,6 +154,7 @@ export default function Sidebar({ isOpen, onClose, formData, setFormData }: Side
               <ChromePicker
                 color={buttonBgColor}
                 onChange={(color) => setButtonBgColor(color.hex)}
+                className=" cursor-pointer"
                 onChangeComplete={(color) => updateTheme("button", "backgroundColor", color.hex)}
               />
               <p className="text-xs sm:text-sm mt-1">{buttonBgColor}</p>
@@ -161,6 +164,7 @@ export default function Sidebar({ isOpen, onClose, formData, setFormData }: Side
               <ChromePicker
                 color={buttonColor}
                 onChange={(color) => setButtonColor(color.hex)}
+                className=" cursor-pointer"
                 onChangeComplete={(color) => updateTheme("button", "color", color.hex)}
               />
               <p className="text-xs sm:text-sm mt-1">{buttonColor}</p>
