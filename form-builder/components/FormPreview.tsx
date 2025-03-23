@@ -1,4 +1,4 @@
-// components/FormPreview.tsx (unchanged except for minor class adjustments)
+// components/FormPreview.tsx
 "use client";
 
 import { useForm, UseFormReturn } from "react-hook-form";
@@ -54,6 +54,39 @@ export default function FormPreview({ formData, onSubmit }: FormPreviewProps) {
     }
   };
 
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const allowedKeys = [
+      "Backspace",
+      "Delete",
+      "ArrowLeft",
+      "ArrowRight",
+      "Tab",
+      "Home",
+      "End",
+    ];
+    if (allowedKeys.includes(e.key) || (e.key >= "0" && e.key <= "9")) {
+      return; // Allow numbers and navigation keys
+    }
+    e.preventDefault(); // Block all other keys
+    form.setError(e.currentTarget.name, { type: "manual", message: "Enter number" });
+  };
+
+  const handlePhonePaste = (
+    e: React.ClipboardEvent<HTMLInputElement>,
+    form: UseFormReturn<Record<string, string>>,
+    fieldId: string
+  ) => {
+    const pastedData = e.clipboardData.getData("text");
+    const numericValue = pastedData.replace(/\D/g, "");
+    if (pastedData !== numericValue) {
+      form.setError(fieldId, { type: "manual", message: "Enter number" });
+    } else {
+      form.clearErrors(fieldId);
+    }
+    form.setValue(fieldId, numericValue, { shouldValidate: true });
+    e.preventDefault(); // Prevent default paste
+  };
+
   const handlePhoneInput = (
     e: React.ChangeEvent<HTMLInputElement>,
     form: UseFormReturn<Record<string, string>>,
@@ -62,7 +95,7 @@ export default function FormPreview({ formData, onSubmit }: FormPreviewProps) {
     const value = e.target.value;
     const numericValue = value.replace(/\D/g, "");
     if (value !== numericValue) {
-      form.setError(fieldId, { type: "manual", message: "Enter number not character" });
+      form.setError(fieldId, { type: "manual", message: "Enter number" });
     } else {
       form.clearErrors(fieldId);
     }
@@ -156,6 +189,16 @@ export default function FormPreview({ formData, onSubmit }: FormPreviewProps) {
                       }}
                       {...formField}
                       value={formField.value ?? ""}
+                      onKeyDown={
+                        field.type === "phone"
+                          ? (e) => handlePhoneKeyDown(e)
+                          : undefined
+                      }
+                      onPaste={
+                        field.type === "phone"
+                          ? (e) => handlePhonePaste(e, form, field.id)
+                          : undefined
+                      }
                       onInput={
                         field.type === "phone"
                           ? (e) => handlePhoneInput(e as React.ChangeEvent<HTMLInputElement>, form, field.id)
